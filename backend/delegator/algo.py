@@ -6,10 +6,12 @@ def checkCertifications(technician, orderList):
 def checkShift(technician, orderList, currentTime):
     return [x for x in orderList if x.timeToComplete + currentTime <= technician.shiftEnd]
 
-def checkOccupancy(order, facilitiesList):
-    for fac in facilitiesList:
-        if fac == order.facility:
-            return fac.fullyOccupied
+def checkOccupancy(orderList, facilitiesList):
+    notOccupied = []
+    for order in orderList:
+        for fac in facilitiesList:
+            if fac == orderList.facility:
+                notOccupied.append(order)
         
 def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
     """
@@ -18,14 +20,16 @@ def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
     Returns a tuple, the technician and the order that it is working on. 
     """
     # filters only the orders that technician has certification for 
-    filter1 = filter(lambda x: x.type in technician.certifications, orderList)
+    filter1 = checkCertifications(technician, orderList); 
     # and then filters only the jobs that end before the technician's shift ends
-    allChecked = filter(lambda x: currentTime + x.timeToComplete < technician.shiftEnd, certified)
+    filter2 = checkShift(technician, filter1, currentTime)
+    # and the filters only the non fully occupied facilities
+    finalList = checkShift(filter2, facilitiesList)
 
-    highestPriority = allChecked[0].priority
+    highestPriority = finalList[0].priority
     currentLocation = technician.location
 
-    for order in allChecked:
+    for order in finalList:
         if order.priority < highestPriority:
             break
         if currentLocation == order.facility:
