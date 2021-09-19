@@ -15,12 +15,16 @@
  */
 import Vue from "vue";
 import App from "./App";
+import { BootstrapVue } from 'bootstrap-vue'
+import VueCookies from 'vue-cookies';
 import router from "./router/index";
 
 import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
 
 Vue.use(PaperDashboard);
+Vue.use(BootstrapVue);
+Vue.use(VueCookies);
 
 /* eslint-disable no-new */
 new Vue({
