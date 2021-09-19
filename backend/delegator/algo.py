@@ -35,4 +35,4 @@ def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
         if currentLocation == order.facility:
             return tuple(technician, order)
 
-    return tuple(technician, allChecked[0])
+    return tuple(technician, finalList[0])
