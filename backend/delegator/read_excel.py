@@ -48,4 +48,3 @@ class Data():
     def getLogData(self):
         return self.logData
 x = Data()
-print(x.getLogData())

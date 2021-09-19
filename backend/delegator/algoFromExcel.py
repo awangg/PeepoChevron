@@ -8,8 +8,8 @@ def checkOccupancy(orderList, facilitiesList):
     notOccupied = []
     for order in orderList:
         for fac in facilitiesList:
-            if fac == order["Facility"]:
-                if 2 < fac["Maximum Occupancy"]:
+            if fac["Facility"] == order["Facility"]:
+                if 0 < fac["Maximum Occupacy"]:
                     notOccupied.append(order)
     return notOccupied
         
@@ -19,36 +19,29 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
     Returns a tuple, the technician and the order that it is working on. 
     """
-    print(technician)
-
     # filters only the orders that technician has certification for 
     filter1 = checkCertifications(technician, orderList); 
-
-    print(filter1)
-    print(facilitiesList)
     # and then filters only the non fully occupied facilities
     finalList = checkOccupancy(filter1, facilitiesList)
-
-    print(finalList)
 
     # if there is no order that fits the technician, return empty
     if not finalList:
         return
 
-    highestPriority = finalList[0]["Priority"]
+    highestPriority = finalList[0]["Priority(1-5)"]
     currentLocation = technician["Location"]
 
     for order in finalList:
-        if order["Priority"] < highestPriority:
+        if order["Priority(1-5)"] < highestPriority:
             break
         if currentLocation == order["Facility"]:
-            return tuple(technician, order)
+            return (technician, order)
 
-    return tuple(technician, finalList[0])
+    return (technician, finalList[0])
 
 def testExcel():
     x = Data()
-    person1 = x.getWorkerData()[0]
+    person1 = x.getWorkerData()[3]
     print(assignOrderToTech(person1, x.logData, x.facData))
 
 testExcel()
