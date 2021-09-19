@@ -89,9 +89,9 @@ def assignOrderToTech(technician, orderList, facilitiesList):
         if order.priority < highestPriority:
             break
         if currentLocation == order.facility:
-            return tuple(technician, order.data)
+            return order
 
-    return (technician.name, finalList[0].data)
+    return finalList[0]
 
 def testExcel():
     x = Data()
