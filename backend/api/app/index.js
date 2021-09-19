@@ -5,6 +5,7 @@ const moment = require('moment')
 const cors = require('cors')
 
 const mongo = require('./mongo')
+const routes = require('../src/controller')
 
 moment().format()
 
@@ -14,6 +15,7 @@ const run = (port) => {
 
   app.use(cors())
   app.use(bodyParser.json())
+  app.use('/api/v1', routes)
 
   server.listen(port, () => {
     console.log('Listening on http://localhost:' + port)
