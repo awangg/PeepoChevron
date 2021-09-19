@@ -48,9 +48,7 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
 def testExcel():
     x = Data()
+    person1 = x.getWorkerData()[0]
+    print(assignOrderToTech(person1, x.logData, x.facData))
 
-x = Data()
-
-person1 = x.getWorkerData()[0]
-
-print(assignOrderToTech(person1, x.logData, x.facData))
+testExcel()
