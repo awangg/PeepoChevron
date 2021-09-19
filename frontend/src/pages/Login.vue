@@ -1,12 +1,16 @@
 <template>
   <div class="wrapper">
-    <card class="card text-center">
-      <b-tabs content-class="mt-3">
+    <div class="row">
+      <img :src="require('@/assets/img/biglogo.png')" class="img-fluid" />
+    </div>
+    <div class="row">
+    <card class="card text-center" id="logincard">
+      <b-tabs content-class="mt-3" justified>
         <b-tab title="Facility" active>
           <div class="row">
             <div class="col-12">
               <label for="select">Name</label>
-              <b-form-select class="mock-fg mb-2" id="select"
+              <b-form-select class="mock-fg mb-3" id="select"
                              v-model="facility.name"
                              :options="facilities">
               </b-form-select>
@@ -52,33 +56,9 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Administrator">
-          <div class="row">
-            <div class="col-12">
-              <fg-input type="text"
-                        label="Name"
-                        placeholder="Bob"
-                        v-model="admin.name">
-              </fg-input>
-            </div>
-            <div class="col-12">
-              <fg-input type="password"
-                        label="Password"
-                        placeholder="abcde"
-                        v-model="admin.password">
-              </fg-input>
-            </div>
-            <div class="col-12 text-center mt-4">
-              <p-button type="info"
-                        round
-                        @click.native.prevent="updateProfile">
-                Login as Administrator
-              </p-button>
-            </div>
-          </div>
-        </b-tab>
       </b-tabs>
     </card>
+    </div>
   </div>
 </template>
 <script>
@@ -93,10 +73,6 @@ export default {
         password: ""
       },
       tech: {
-        name: "",
-        password: ""
-      },
-      admin: {
         name: "",
         password: ""
       }
@@ -147,8 +123,6 @@ export default {
           this.$router.push({ name: 'stats' })
         }
       })
-    },
-    loginAdmin() {
     }
   }
 }
@@ -157,11 +131,16 @@ export default {
 .wrapper {
   background-color: #f4f3ef;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .mock-fg {
   background-color: #fffcf5;
+}
+
+#logincard {
+  min-width: 50rem;
 }
 </style>
