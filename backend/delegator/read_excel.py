@@ -1,3 +1,4 @@
+from datetime import datetime
 from openpyxl import load_workbook, Workbook
 import pandas as pd 
 import numpy as np
@@ -33,7 +34,10 @@ class Data():
             for i in range(len(header)):
                 if pd.isnull(header[i]) or pd.isnull(mat[i]):
                     continue
-                temp[header[i]] = mat[i]
+                if header[i] == "Submission Timestamp" and type(mat[i]) == datetime:
+                    temp[header[i]] = mat[i].isoformat()
+                else:
+                    temp[header[i]] = mat[i]
             if temp:
                 lst.append(temp)
         return lst
@@ -44,4 +48,4 @@ class Data():
     def getLogData(self):
         return self.logData
 x = Data()
-print(x.getWorkerData())
+print(x.getLogData())
