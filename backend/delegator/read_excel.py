@@ -2,9 +2,10 @@ from openpyxl import load_workbook, Workbook
 import pandas as pd 
 import numpy as np
 import os
+
 class Data():
     def __init__(self):
-        self.FILE = "RiceHackathonFile.xlsx"
+        self.FILE = "backend\delegator\RiceHackathonFile.xlsx"
         self.equipData = self.readData("Equipment Details", 1, 1)
         self.facData = self.readData("Facility Details", 1, 1)
         self.logData = self.readData("Work Order Examples", 1, 1)
