@@ -16,7 +16,7 @@ class Data():
         for person in matrix:
             temp = {}
             temp["Name"] = person[0]
-            temp["Certifications"] = person[1].split(",")
+            temp["Certifications"] = person[1].replace(" ", "").split(",")
             temp["Shifts"] = person[2]
             temp["Location"] = (0, 0)
             temp["hasJob"] = False
@@ -44,3 +44,4 @@ class Data():
     def getLogData(self):
         return self.logData
 x = Data()
+print(x.getWorkerData())
