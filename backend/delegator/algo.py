@@ -9,8 +9,9 @@ def checkOccupancy(orderList, facilitiesList):
     for order in orderList:
         for fac in facilitiesList:
             if fac == order.facility:
-                if not fac.fullyOccupied:
+                if fac.currentOccupancy < fac.maxOccupancy:
                     notOccupied.append(order)
+    return notOccupied
         
 def assignOrderToTech(technician, orderList, facilitiesList):
     """
