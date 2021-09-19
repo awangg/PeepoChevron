@@ -46,6 +46,9 @@ class Log():
         self.priority = data["Priority(1-5)"]
         self.timeNeeded = data["Time to Complete"]
         self.timeSubmission = data["Submission Timestamp"]
+        self.data = data
+    def toString(self):
+        return self.data
         
 def checkCertifications(technician, orderList):
     res = []
@@ -86,9 +89,9 @@ def assignOrderToTech(technician, orderList, facilitiesList):
         if order.priority < highestPriority:
             break
         if currentLocation == order.facility:
-            return (technician, order)
+            return tuple(technician, order.data)
 
-    return (technician.name, finalList[0])
+    return (technician.name, finalList[0].data)
 
 def testExcel():
     x = Data()

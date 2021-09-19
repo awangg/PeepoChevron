@@ -8,6 +8,7 @@ import Dashboard from "@/pages/Dashboard.vue";
 import WorkForm from '@/pages/WorkForm.vue';
 import UserProfile from "@/pages/UserProfile.vue";
 import Outgoing from '@/pages/Outgoing.vue';
+import Assignment from '@/pages/Assignment.vue';
 
 // Template pages
 import Notifications from "@/pages/Notifications.vue";
@@ -37,14 +38,19 @@ const routes = [
         component: WorkForm
       },
       {
+        path: "outgoing",
+        name: "outgoing orders",
+        component: Outgoing
+      },
+      {
         path: "stats",
         name: "stats",
         component: UserProfile
       },
       {
-        path: "outgoing",
-        name: "outgoing orders",
-        component: Outgoing
+        path: "assignment",
+        name: "assignment",
+        component: Assignment
       },
       {
         path: "notifications",

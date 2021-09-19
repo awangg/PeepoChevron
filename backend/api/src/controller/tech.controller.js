@@ -36,6 +36,7 @@ router.get('/:techId/order', verifyAuth, checkIsTech, async (req, res) => {
     let ord = await TechService.getCurrentWorkOrder(req.params.techId)
     res.status(200).json(ord)
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 })

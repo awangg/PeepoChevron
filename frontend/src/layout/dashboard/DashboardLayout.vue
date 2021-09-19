@@ -6,6 +6,7 @@
         <sidebar-link to="/outgoing" name="Outgoing Work Orders" icon="ti-pulse" v-if="access == 1" />
         <sidebar-link to="/workform" name="Submit New Work Order" icon="ti-support" v-if="access == 1" />
         <sidebar-link to="/stats" name="User Profile" icon="ti-user" v-if="access == 2"/>
+        <sidebar-link to="/assignment" name="Job Assignment" icon="ti-hummer" v-if="access == 2"/>
         <sidebar-link to="/table-list" name="Table List" icon="ti-view-list-alt" v-if="access == 3"/>
         <sidebar-link to="/typography" name="Typography" icon="ti-text" v-if="access == 3"/>
         <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2" v-if="access == 3"/>
