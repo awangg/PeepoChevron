@@ -4,6 +4,7 @@ const jwt = require('jwt-simple')
 const moment = require('moment')
 
 const { Facility, Order, Tech } = require('../model')
+const { sendAssignment } = require('../utils/sms')
 
 const createTech = async (techSchema) => {
   let tec = await new Tech(techSchema).save()
@@ -63,6 +64,8 @@ const assignWorkOrder = async (techId) => {
 
   await Facility.updateOne({ facility: response.data.facility }, { $inc: { current_occupancy: 1 } })
   await Tech.findByIdAndUpdate({ _id: techId }, { current_order: response.data._id })
+
+  sendAssignment(response.data)
 
   return response.data
 }
