@@ -1,4 +1,5 @@
 import time
+from read_excel import Data
 
 def checkCertifications(technician, orderList):
     return [x for x in orderList if x.type in technician.certifications]
@@ -36,3 +37,7 @@ def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
             return tuple(technician, order)
 
     return tuple(technician, finalList[0])
+
+def testExcel():
+    x = Data()
+    
