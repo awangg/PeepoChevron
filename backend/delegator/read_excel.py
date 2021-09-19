@@ -1,7 +1,9 @@
+from datetime import datetime
 from openpyxl import load_workbook, Workbook
 import pandas as pd 
 import numpy as np
 import os
+
 class Data():
     def __init__(self):
         self.FILE = "RiceHackathonFile.xlsx"
@@ -15,7 +17,7 @@ class Data():
         for person in matrix:
             temp = {}
             temp["Name"] = person[0]
-            temp["Certifications"] = person[1].split(",")
+            temp["Certifications"] = person[1].replace(" ", "").split(",")
             temp["Shifts"] = person[2]
             temp["Location"] = (0, 0)
             temp["hasJob"] = False
@@ -32,7 +34,10 @@ class Data():
             for i in range(len(header)):
                 if pd.isnull(header[i]) or pd.isnull(mat[i]):
                     continue
-                temp[header[i]] = mat[i]
+                if header[i] == "Submission Timestamp" and type(mat[i]) == datetime:
+                    temp[header[i]] = mat[i].isoformat()
+                else:
+                    temp[header[i]] = mat[i]
             if temp:
                 lst.append(temp)
         return lst
@@ -43,3 +48,4 @@ class Data():
     def getLogData(self):
         return self.logData
 x = Data()
+print(x.getLogData())

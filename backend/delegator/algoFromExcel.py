@@ -1,16 +1,15 @@
 import time
 from read_excel import Data
-import json
 
 def checkCertifications(technician, orderList):
-    return [x for x in orderList if x.type in technician.certifications]
+    return [x for x in orderList if x["Equipment Type"] in technician["Certifications"]]
 
 def checkOccupancy(orderList, facilitiesList):
     notOccupied = []
     for order in orderList:
         for fac in facilitiesList:
-            if fac == order.facility:
-                if fac.currentOccupancy < fac.maxOccupancy:
+            if fac == order["Facility"]:
+                if 2 < fac["Maximum Occupancy"]:
                     notOccupied.append(order)
     return notOccupied
         
@@ -20,34 +19,36 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
     Returns a tuple, the technician and the order that it is working on. 
     """
+    print(technician)
+
     # filters only the orders that technician has certification for 
     filter1 = checkCertifications(technician, orderList); 
 
+    print(filter1)
+    print(facilitiesList)
     # and then filters only the non fully occupied facilities
     finalList = checkOccupancy(filter1, facilitiesList)
+
+    print(finalList)
 
     # if there is no order that fits the technician, return empty
     if not finalList:
         return
 
-    highestPriority = finalList[0].priority
-    currentLocation = technician.location
+    highestPriority = finalList[0]["Priority"]
+    currentLocation = technician["Location"]
 
     for order in finalList:
-        if order.priority < highestPriority:
+        if order["Priority"] < highestPriority:
             break
-        if currentLocation == order.facility:
+        if currentLocation == order["Facility"]:
             return tuple(technician, order)
 
     return tuple(technician, finalList[0])
 
 def testExcel():
     x = Data()
-    workerData = x.getWorkerData()
-    jsonWorker = json.dumps(workerData)
-    logData = x.getLogData()
-    logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
-    jsonLog = json.dumps(logData)
-    print(type(jsonWorker), jsonLog)
+    person1 = x.getWorkerData()[0]
+    print(assignOrderToTech(person1, x.logData, x.facData))
 
 testExcel()
