@@ -5,7 +5,7 @@ import os
 
 class Data():
     def __init__(self):
-        self.FILE = "backend\delegator\RiceHackathonFile.xlsx"
+        self.FILE = "RiceHackathonFile.xlsx"
         self.equipData = self.readData("Equipment Details", 1, 1)
         self.facData = self.readData("Facility Details", 1, 1)
         self.logData = self.readData("Work Order Examples", 1, 1)
@@ -16,7 +16,7 @@ class Data():
         for person in matrix:
             temp = {}
             temp["Name"] = person[0]
-            temp["Certifications"] = person[1].split(",")
+            temp["Certifications"] = person[1].replace(" ", "").split(",")
             temp["Shifts"] = person[2]
             temp["Location"] = (0, 0)
             temp["hasJob"] = False
@@ -44,3 +44,4 @@ class Data():
     def getLogData(self):
         return self.logData
 x = Data()
+print(x.getWorkerData())

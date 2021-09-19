@@ -42,4 +42,7 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
 def testExcel():
     x = Data()
-    
+    logData = x.getLogData()
+    logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
+
+testExcel()
