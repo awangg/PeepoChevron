@@ -1,5 +1,6 @@
 import time
 from read_excel import Data
+import json
 
 def checkCertifications(technician, orderList):
     return [x for x in orderList if x.type in technician.certifications]
@@ -42,7 +43,11 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
 def testExcel():
     x = Data()
+    workerData = x.getWorkerData()
+    jsonWorker = json.dumps(workerData)
     logData = x.getLogData()
     logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
+    jsonLog = json.dumps(logData)
+    print(type(jsonWorker), jsonLog)
 
 testExcel()
