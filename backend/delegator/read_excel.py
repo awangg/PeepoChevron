@@ -6,9 +6,9 @@ import os
 class Data():
     def __init__(self):
         self.FILE = "RiceHackathonFile.xlsx"
-        self.df = pd.read_excel("RiceHackathonFile.xlsx", engine = 'openpyxl')
         self.equipData = self.readData("Equipment Details", 1, 1)
         self.facData = self.readData("Facility Details", 1, 1)
+        self.logData = self.readData("Work Order Examples", 1, 1)
     def getWorkerData(self):
         df = pd.read_excel(self.FILE, sheet_name= "Worker Details", engine = "openpyxl")
         matrix = df.iloc[0:, 1:].values.tolist()
@@ -34,15 +34,13 @@ class Data():
                 if pd.isnull(header[i]) or pd.isnull(mat[i]):
                     continue
                 temp[header[i]] = mat[i]
-            lst.append(temp)
+            if temp:
+                lst.append(temp)
         return lst
     def getEquipData(self):
         return self.equipData
     def getFacilityData(self):
         return self.facData
-
+    def getLogData(self):
+        return self.logData
 x = Data()
-x.getWorkerData()
-print(x.getEquipData(), x.getFacilityData())
-x.getEquipData()
-x.getFacilityData()
