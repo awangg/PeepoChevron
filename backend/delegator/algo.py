@@ -80,7 +80,7 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
     # if there is no order that fits the technician, return empty
     if not finalList:
-        return
+        return {}
 
     highestPriority = finalList[0].priority
     currentLocation = technician.location
