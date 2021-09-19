@@ -7,6 +7,9 @@ import Login from '@/pages/Login.vue';
 import Dashboard from "@/pages/Dashboard.vue";
 import WorkForm from '@/pages/WorkForm.vue';
 import UserProfile from "@/pages/UserProfile.vue";
+import Outgoing from '@/pages/Outgoing.vue';
+
+// Template pages
 import Notifications from "@/pages/Notifications.vue";
 import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
@@ -37,6 +40,11 @@ const routes = [
         path: "stats",
         name: "stats",
         component: UserProfile
+      },
+      {
+        path: "outgoing",
+        name: "outgoing orders",
+        component: Outgoing
       },
       {
         path: "notifications",
