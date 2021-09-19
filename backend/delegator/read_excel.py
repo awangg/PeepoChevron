@@ -1,20 +1,48 @@
+from numpy.matrixlib.defmatrix import matrix
 from openpyxl import load_workbook, Workbook
-
+import pandas as pd 
+import numpy as np
+import os
 class Data():
     def __init__(self):
-        self.NULL = {None, "=""", ""}
-        self.WORKFILE = "backend\delegator\data\RiceHackathonFile.xlsx"
-        self.SHEET_NAMES = ["Equipment Details", "Worker Details", "Facility Details", "Work Order Examples"]
-        self.wb = load_workbook(self.WORKFILE)
+        self.FILE = "RiceHackathonFile.xlsx"
+        self.df = pd.read_excel("RiceHackathonFile.xlsx", engine = 'openpyxl')
+        self.equipData = self.readData("Equipment Details", 1, 1)
+        self.facData = self.readData("Facility Details", 1, 1)
+    def getWorkerData(self):
+        df = pd.read_excel(self.FILE, sheet_name= "Worker Details", engine = "openpyxl")
+        matrix = df.iloc[0:, 1:].values.tolist()
+        self.workerInfo = []
+        for person in matrix:
+            temp = {}
+            temp["Name"] = person[0]
+            temp["Certifications"] = person[1].split(",")
+            temp["Shifts"] = person[2]
+            temp["Location"] = (0, 0)
+            temp["hasJob"] = False
+            self.workerInfo.append(temp)
+        return self.workerInfo
+    def readData(self, sheetName, row, col):
+        df = pd.read_excel(self.FILE, sheetName, engine = "openpyxl")
+        MATRIX = df.iloc[row:, col:]
+        lstMat = MATRIX.values.tolist()
+        header = df.iloc[0, 1:].to_list()
+        lst = []
+        for mat in lstMat:
+            temp = {}
+            for i in range(len(header)):
+                if pd.isnull(header[i]) or pd.isnull(mat[i]):
+                    continue
+                temp[header[i]] = mat[i]
+            lst.append(temp)
+        return lst
+    def getEquipData(self):
+        return self.equipData
+    def getFacilityData(self):
+        return self.facData
 
-        self.EQUIPMENT_FIELDS = ["failure", "fix", "fac1", "fac2", "fac3", "fac4", "fac5"]
-        self.WORKER_FIELDS = ["certifications", "shifts"]
-        self.FACILITY_FIELDS = ["latitude", "longitude", "occupancy"]
-        self.ORDER_FIELDS = ["facility", "type", "id", "priority", "completion_time", "submission_time"]
-
-        self.EQUIPMENT = self.read_sheet(self.SHEET_NAMES[0], 3, 2, self.EQUIPMENT_FIELDS)
-        self.WORKER = self.read_sheet(self.SHEET_NAMES[1], 2, 2, self.WORKER_FIELDS)
-        self.FACILITY = self.read_sheet(self.SHEET_NAMES[2], 3, 2, self.FACILITY_FIELDS)
-        self.ORDER = self.read_sheet(self.SHEET_NAMES[3], 3, 2, self.ORDER_FIELDS)
-        self.DISTANCE_MATRIX = self.generate_distance_matrix()
-        
+x = Data()
+x.getWorkerData()
+print(x.getEquipData(), x.getFacilityData())
+x.getEquipData()
+x.getFacilityData()
