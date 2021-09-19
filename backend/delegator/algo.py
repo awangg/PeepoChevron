@@ -7,8 +7,8 @@ class Facility():
         self.facility = dict["Facility"]
         self.latitude = dict["Latitude"]
         self.longitude = dict["Longitude"]
-        self.maxOccupacy = dict["Maximum Occupacy"]
-        self.currentOccupacy = 0
+        self.maxOccupancy = dict["Maximum Occupacy"]
+        self.currentOccupancy = 0
     def getFacility(self):
         return self.facility
     def getLat(self):
@@ -16,9 +16,9 @@ class Facility():
     def getLong(self):
         return self.longitude
     def getMaxOccupacy(self):
-        return self.maxOccupacy
+        return self.maxOccupancy
     def getCurrOccupacy(self):
-        return self.currentOccupacy
+        return self.currentOccupancy
         
 class Worker():
     def __init__(self, dict):
@@ -63,7 +63,7 @@ def checkOccupancy(orderList, facilitiesList):
     for order in orderList:
         for fac in facilitiesList:
             if fac.facility == order.facility:
-                if fac.currentOccupacy < fac.maxOccupacy:
+                if fac.currentOccupancy < fac.maxOccupancy:
                     notOccupied.append(order)
     return notOccupied
         
@@ -89,9 +89,9 @@ def assignOrderToTech(technician, orderList, facilitiesList):
         if order.priority < highestPriority:
             break
         if currentLocation == order.facility:
-            return tuple(technician, order.data)
+            return order
 
-    return (technician.name, finalList[0].data)
+    return finalList[0]
 
 # def testExcel():
 #     x = Data()
