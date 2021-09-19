@@ -1,114 +1,112 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Work Order Request Form</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.4/css/bulma.min.css">
-</head>
-
-<body>
-  <div class="columns" id="app">
-    <div class="column is-two-thirds">
-      <section class="section">
-        <h1 class="title">Work Order Request</h1>
-        <p class="subtitle">
-          All fields <strong>must</strong> be completed.
-        </p>
-        <hr>      
-        
-        <!-- form starts here -->
-        <section class="form">
-        <form v-on:submit.prevent="$validator.validateAll(); console.log(form);">
-          <div class="field">
-            <label class="label">Equiment ID</label>
-            <div class="control">
-              <input ID="ID" v-model="form.ID" v-validate="'required|min:3'" v-bind:class="{'is-danger': errors.has('ID')}" class="input" type="text" placeholder="Equipment ID">
+<template>
+  <card class="card" title="Submit New Work Order">
+    <div>
+      <form @submit.prevent>
+        <div class="row">
+          <div class="col-16">
+              <label for="select">Equipment Type</label>
+              <b-form-select class="mock-fg mb-2" id="select"
+                             v-model="form.equipment.equipment_type"
+                             :options="equipment">
+              </b-form-select>
             </div>
-            <p class="help is-danger" v-show="errors.has('ID')">
-              {{ errors.first('ID') }}
-            </p>
+          <div class="col-md-6">
+            <fg-input type="text"
+                      label="Equipment ID"
+                      placeholder="X123"
+                      v-model="form.equipment.id">
+            </fg-input>
           </div>
+        </div>
 
-          <div class="field">
-            <label class="label">Equipment Type</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="form.Equipment">
-                    <option disabled value="">Nothing selected</option>
-                    <option v-for="option in options.equip" v-bind:value="option.value">
-                      {{ option.text }}
-                    </option>
-                  </select>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="select2">Priority</label>
+              <b-form-select class="mock-fg mb-2" id="select2"
+                             v-model="form.priority"
+                             :options="priorities">
+              </b-form-select>
           </div>
-
-          <div class="field">
-            <div class="control">
-              <label class="checkbox">
-                  <input type="checkbox" v-model="form.terms">
-                  I agree to the <a href="#">terms and conditions</a>
-                </label>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <fg-input type="number"
+                      label="Estimated Completion Time"
+                      v-model="form.completion">
+            </fg-input>
           </div>
-
-          <div class="field is-grouped">
-            <div class="control">
-              <button v-bind:disabled="errors.any()" class="button is-primary">
-                Submit
-              </button>
-            </div>
-          </div>
-
-        </form>
-      </section>
-    </section>
-  </div>
-
-  <div class="column">
-    <section class="section" id="results">
-      <div class="box">
-        <ul>
-          <li v-for="(item, k) in form">
-            <strong>{{ k }}:</strong> {{ item }}</li>
-        </ul>
-
-      </div>
-    </section>
-  </div>
-
-</section>
-      </section>
+        </div>
+        <div class="col-12 text-center mt-4">
+          <p-button type="info"
+                    round
+                    @click.native.prevent="submitForm">
+            Submit Work Order
+          </p-button>
+        </div>
+        <div class="clearfix"></div>
+      </form>
     </div>
-  </div>
-  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
-
+  </card>
+</template>
 <script>
-  new Vue({
-    el: '#app'
-        data: {
-            form : {
-                ID: '',
-                Equipment: '' // drop down box (single value selectable)
-             },
-             options: {
-                equip: [
-                    { value: 'feature', text: "Pump"},
-                    { value: 'feature', text: "Conveyer"},
-                    { value: 'feature', text: "Seperator"}
-                    { value: 'feature', text: "Sensor"}
-                    { value: 'feature', text: "Security"}
-                    { value: 'feature', text: "Electricity"}
-                    { value: 'feature', text: "Networking"}
-                    { value: 'feature', text: "Vehicle"}
-                    { value: 'feature', text: "HVAC"}
-                    { value: 'feature', text: "Compressor"}
-                    { value: 'feature', text: "HVAC"}
-                ]
-            }
-        }
-  })
-</script>
+import axios from 'axios';
 
-</body>
-</html>
+export default {
+  data() {
+    return {
+      form: {
+        facility: "",
+        equipment: {
+          equipment_type: "",
+          id: ""
+        },
+        priority: "",
+        completion: "",
+        submission_time: ""
+      },
+      equipment: [
+        "Pump",
+        "Compressor",
+        "Seperator",
+        "Sensor",
+        "Security",
+        "Electricity",
+        "Networking",
+        "Vehicle",
+        "HVAC",
+        "Conveyor"
+      ],
+      priorities: [
+        1, 2, 3, 4, 5
+      ]
+    }
+  },
+  updated() {
+    this.form.facility = this.$cookies.get('facility')
+  },
+  methods: {
+    async submitForm() {
+      this.form.submission_time = new Date()
+      await axios({
+        method: 'post',
+        url: `http://localhost:3000/api/v1/facility/${this.$cookies.get('id')}`,
+        headers: {
+          Authorization: `Bearer ${this.$cookies.get('token')}` 
+        },
+        data: {
+          workOrder: this.form
+        }
+      }).then( (response) => {
+        let body = response.data
+        console.log(body)
+        this.$router.push({ name: 'outgoing orders' })
+      })
+    }
+  }
+}
+</script>
+<style scoped>
+.mock-fg {
+  background-color: #fffcf5;
+}
+</style>

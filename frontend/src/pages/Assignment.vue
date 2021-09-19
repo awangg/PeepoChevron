@@ -72,7 +72,7 @@ export default {
   async mounted() {
     await axios.get(`http://localhost:3000/api/v1/tech/${this.$cookies.get('id')}/order`, {
       headers: {
-        Authorization: `Bearer ${this.$cookies.get('token')}` 
+        Authorization: `Bearer ${this.$cookies.get('token')}`
       }
     }).then( (response) => {
       let body = response.data

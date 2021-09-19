@@ -42,6 +42,7 @@ router.get('/:facilityId', verifyAuth, checkIsFacility, async (req, res) => {
 
 router.post('/:facilityId', verifyAuth, checkIsFacility, async (req, res) => {
   try {
+    console.log(req.body)
     let fac = await FacilityService.addWorkOrder(req.params.facilityId, req.body.workOrder)
     res.status(200).json(fac)
   } catch (err) {
