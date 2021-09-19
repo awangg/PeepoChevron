@@ -10,7 +10,7 @@ def checkOccupancy(orderList, facilitiesList):
             if fac == orderList.facility:
                 notOccupied.append(order)
         
-def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
+def assignOrderToTech(technician, orderList, facilitiesList):
     """
     Assigns a work order to a given technician.
 
@@ -21,6 +21,10 @@ def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
 
     # and then filters only the non fully occupied facilities
     finalList = checkOccupancy(filter1, facilitiesList)
+
+    # if there is no order that fits the technician, return empty
+    if not finalList:
+        return
 
     highestPriority = finalList[0].priority
     currentLocation = technician.location
