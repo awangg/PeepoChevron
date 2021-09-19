@@ -9,7 +9,7 @@
         </ul>
       </nav>
       <div class="copyright d-flex flex-wrap">
-        Template by <a href="https://www.creative-tim.com/?ref=pdf-vuejs" target="_blank">&nbsp; Creative Tim.</a>
+        <a href="https://github.com/awangg/PeepoChevron" target="_blank">Github Repository</a>
       </div>
     </div>
   </footer>

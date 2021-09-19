@@ -43,6 +43,19 @@
             </fg-input>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Certifications</label>
+              <textarea rows="5" class="form-control border-input"
+                        placeholder="Security"
+                        v-model="user.certifications">
+
+              </textarea>
+            </div>
+          </div>
+        </div>
         <div class="clearfix"></div>
       </form>
     </div>
@@ -59,7 +72,8 @@ export default {
         name: "",
         shiftStart: "",
         shiftEnd: "",
-        busy: ""
+        busy: "",
+        certifications: ""
       }
     };
   },
@@ -74,6 +88,7 @@ export default {
       this.user.shiftStart = this.secondsToTime(body.shift.start)
       this.user.shiftEnd = this.secondsToTime(body.shift.end)
       this.user.busy = body.busy
+      this.user.certifications = this.buildCertString(body.certifications)
     })
   },
   methods: {
@@ -101,6 +116,14 @@ export default {
         strSecs = "0" + s
       else strSecs = "" + s
       return strHours + ":" +strMins + ":" + strSecs
+    },
+    buildCertString(arr) {
+      let ret = ""
+      for (let certification of arr) {
+        ret += certification + ", "
+      }
+
+      return ret.substring(0, ret.length - 2)
     }
   }
 };
