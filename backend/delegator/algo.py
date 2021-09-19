@@ -4,9 +4,6 @@ from read_excel import Data
 def checkCertifications(technician, orderList):
     return [x for x in orderList if x.type in technician.certifications]
 
-def checkShift(technician, orderList, currentTime):
-    return [x for x in orderList if x.timeToComplete + currentTime <= technician.shiftEnd]
-
 def checkOccupancy(orderList, facilitiesList):
     notOccupied = []
     for order in orderList:
@@ -14,7 +11,7 @@ def checkOccupancy(orderList, facilitiesList):
             if fac == orderList.facility:
                 notOccupied.append(order)
         
-def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
+def assignOrderToTech(technician, orderList, facilitiesList):
     """
     Assigns a work order to a given technician.
 
@@ -22,10 +19,13 @@ def assignOrderToTech(technician, orderList, currentTime, facilitiesList):
     """
     # filters only the orders that technician has certification for 
     filter1 = checkCertifications(technician, orderList); 
-    # and then filters only the jobs that end before the technician's shift ends
-    filter2 = checkShift(technician, filter1, currentTime)
-    # and the filters only the non fully occupied facilities
-    finalList = checkShift(filter2, facilitiesList)
+
+    # and then filters only the non fully occupied facilities
+    finalList = checkOccupancy(filter1, facilitiesList)
+
+    # if there is no order that fits the technician, return empty
+    if not finalList:
+        return
 
     highestPriority = finalList[0].priority
     currentLocation = technician.location
