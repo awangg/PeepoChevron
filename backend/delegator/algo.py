@@ -57,7 +57,6 @@ def checkCertifications(technician, orderList):
 
 def checkOccupancy(orderList, facilitiesList):
     notOccupied = []
-    print(orderList, facilitiesList)
     for order in orderList:
         for fac in facilitiesList:
             if fac.facility == order.facility:
@@ -73,7 +72,6 @@ def assignOrderToTech(technician, orderList, facilitiesList):
     """
     # filters only the orders that technician has certification for 
     filter1 = checkCertifications(technician, orderList); 
-    print("passes filter 1")
     # and then filters only the non fully occupied facilities
     finalList = checkOccupancy(filter1, facilitiesList)
 
@@ -88,9 +86,9 @@ def assignOrderToTech(technician, orderList, facilitiesList):
         if order.priority < highestPriority:
             break
         if currentLocation == order.facility:
-            return tuple(technician, order)
+            return (technician, order)
 
-    return tuple(technician.name, finalList[0])
+    return (technician.name, finalList[0])
 
 def testExcel():
     x = Data()
