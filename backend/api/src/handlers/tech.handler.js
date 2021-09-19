@@ -22,7 +22,7 @@ const login = async (name, password) => {
       access: 2
     }
 
-    if (!tec.busy) assignWorkOrder(tec._id)
+    if (tec.current_order.length < 4) assignWorkOrder(tec._id)
 
     return {
       name: tec.name,
