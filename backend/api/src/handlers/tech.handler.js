@@ -59,10 +59,23 @@ const getCurrentWorkOrder = async (techId) => {
   let tec = await Tech.findById({ _id: techId })
   if (!tec) throw new Error('Technician Not Found')
 
-  let ord = await Order.findById({ _id: tec.current_order })
-  if (!ord) throw new Error('Order Not Found')
+  if (tec.current_order.length < 4)
+    return {}
+  else {
+    let ord = await Order.findById({ _id: tec.current_order })
+    if (!ord) throw new Error('Order Not Found')
 
-  return ord
+    let fac = await Facility.findOne({ facility: ord.facility })
+    if (!fac) throw new Error('Facility Not Found')
+
+    return {
+      location: {
+        lat: fac.location.lat,
+        long: fac.location.long
+      },
+      details: ord
+    }
+  }
 }
 
 const assignWorkOrder = async (techId) => {

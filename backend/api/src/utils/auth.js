@@ -21,7 +21,6 @@ const verifyAuth = (req, res, next) => {
 
   // Facility Access
   if (payload.access == 1) {
-    console.log('e')
     let fac = Facility.findById({ _id: payload.id })
     if (!fac) res.status(404).json({ error: 'Facility Not Found '})
     if (fac.facility == payload.facility)
