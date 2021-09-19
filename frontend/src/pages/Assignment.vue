@@ -38,7 +38,7 @@
     </div>
     
     <div v-if="!order._id && !betweenJobs">
-      <h1> No Job Assigned. </h1>
+      <h1> No jobs available. </h1>
     </div>
 
     <div v-if="!order._id && betweenJobs">
@@ -174,6 +174,10 @@ export default {
       }).then( (response) => {
         let body = response.data
         this.order = body
+      }).catch( (err) => {
+        console.log(err)
+        this.order = {}
+        this.betweenJobs = false
       })
     }
   }

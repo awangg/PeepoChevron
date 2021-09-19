@@ -46,6 +46,7 @@ router.get('/:techId/:orderId/complete', verifyAuth, checkIsTech, async (req, re
     let ord = await TechService.completeWorkOrder(req.params.orderId, req.params.techId)
     res.status(200).json(ord)
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 })

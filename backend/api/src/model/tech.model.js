@@ -13,7 +13,8 @@ const techSchema = new Schema({
     end: { type: Number, required: true }
   },
   current_order: { type: String },
-  busy: { type: Boolean, required: true }
+  busy: { type: Boolean, required: true },
+  last_location: { type: String }
 })
 
 techSchema.pre('save', function (next) {

@@ -1,5 +1,5 @@
 import time
-from read_excel import Data
+# from read_excel import Data
 import json
 
 class Facility():
@@ -93,28 +93,28 @@ def assignOrderToTech(technician, orderList, facilitiesList):
 
     return (technician.name, finalList[0].data)
 
-def testExcel():
-    x = Data()
-    workerData = x.getWorkerData()
-    facData = x.getFacilityData()
-    lstWorkerObj = []
-    lstFacObj = []
-    lstLogObj = []
-    logData = x.getLogData()
-    logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
-    for worker in workerData:
-        lstWorkerObj.append(Worker(worker))
-    for facility in facData:
-        lstFacObj.append(Facility(facility))
-    for log in logData:
-        lstLogObj.append(Log(log))
-    for worker in lstWorkerObj:
-        print(assignOrderToTech(worker, lstLogObj, lstFacObj))
+# def testExcel():
+#     x = Data()
+#     workerData = x.getWorkerData()
+#     facData = x.getFacilityData()
+#     lstWorkerObj = []
+#     lstFacObj = []
+#     lstLogObj = []
+#     logData = x.getLogData()
+#     logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
+#     for worker in workerData:
+#         lstWorkerObj.append(Worker(worker))
+#     for facility in facData:
+#         lstFacObj.append(Facility(facility))
+#     for log in logData:
+#         lstLogObj.append(Log(log))
+#     for worker in lstWorkerObj:
+#         print(assignOrderToTech(worker, lstLogObj, lstFacObj))
     
-    #jsonWorker = json.dumps(workerData)
-    #logData = x.getLogData()
-    #logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
-    #jsonLog = json.dumps(logData)
-    #print(type(jsonWorker), jsonLog)
+#     #jsonWorker = json.dumps(workerData)
+#     #logData = x.getLogData()
+#     #logData = sorted(logData, key=lambda k: (k['Priority(1-5)']), reverse = True)
+#     #jsonLog = json.dumps(logData)
+#     #print(type(jsonWorker), jsonLog)
 
-testExcel()
+# testExcel()

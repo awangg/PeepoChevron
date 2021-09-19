@@ -1,4 +1,5 @@
 const config = require('../../config')
+const axios = require('axios')
 const jwt = require('jwt-simple')
 const moment = require('moment')
 
@@ -35,19 +36,35 @@ const login = async (name, password) => {
 }
 
 const completeWorkOrder = async (orderId, techId) => {
-  // TODO remove later
   let ord = await Order.findByIdAndDelete({ _id: orderId })
   if (!ord) throw new Error('Order Not Found')
   
   let fac = await Facility.updateOne({ facility: ord.facility }, { $pullAll: { work_orders: [orderId] } })
   if (!fac) throw new Error('Associated Facility Not Found')
   fac = await Facility.updateOne({ facility: ord.facility }, { $inc: { current_occupancy: -1 } })
-  let tec = await Tech.findByIdAndUpdate({ _id: techId }, { busy: false, current_order: "" })
+  let tec = await Tech.findByIdAndUpdate({ _id: techId }, { busy: false, current_order: "", last_location: ord.facility })
   if (!tec) throw new Error('Associated Tech Not Found')
 
-  assignWorkOrder(techId)
+  return assignWorkOrder(techId)
+}
 
-  return ord;
+const assignWorkOrder = async (techId) => {
+  let tec = await Tech.findById({ _id: techId })
+  let allOrders = await Order.find({})
+  let allFacs = await Facility.find({})
+
+  const response = await axios.post('http://127.0.0.1:5000/api/v1/assign', {
+    data: {
+      technician: tec,
+      orders: allOrders,
+      facilities: allFacs
+    }
+  })
+
+  await Facility.updateOne({ facility: response.data.facility }, { $inc: { current_occupancy: 1 } })
+  await Tech.findByIdAndUpdate({ _id: techId }, { current_order: response.data._id })
+
+  return response.data
 }
 
 const getTechById = async (techId) => {
@@ -76,14 +93,6 @@ const getCurrentWorkOrder = async (techId) => {
       details: ord
     }
   }
-}
-
-const assignWorkOrder = async (techId) => {
-  console.log('Assume we assigned a work order')
-  /*
-  let ord = await Order.findByIdAndDelete({ _id: orderId })
-  if (!ord) throw new Error('Order Not Found')
-  */
 }
 
 module.exports = {
