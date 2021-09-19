@@ -4,6 +4,11 @@ const moment = require('moment')
 
 const { Facility, Order } = require('../model')
 
+const getAllFacilities = async () => {
+  let facs = await Facility.find({})
+  return facs;
+}
+
 const createFacility = async (facilitySchema) => {
   let fac = new Facility(facilitySchema)
   return fac.save()
@@ -67,5 +72,6 @@ module.exports = {
   login: login,
   getFacilityById: getFacilityById,
   addWorkOrder: addWorkOrder,
-  getWorkOrdersForFacility: getWorkOrdersForFacility
+  getWorkOrdersForFacility: getWorkOrdersForFacility,
+  getAllFacilities: getAllFacilities
 }

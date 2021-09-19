@@ -3,6 +3,7 @@ import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 import NotFound from "@/pages/NotFoundPage.vue";
 
 // Admin pages
+import Login from '@/pages/Login.vue';
 import Dashboard from "@/pages/Dashboard.vue";
 import WorkForm from '@/pages/WorkForm.vue';
 import UserProfile from "@/pages/UserProfile.vue";
@@ -13,6 +14,10 @@ import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 
 const routes = [
+  {
+    path: "/login",
+    component: Login
+  },
   {
     path: "/",
     component: DashboardLayout,

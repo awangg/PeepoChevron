@@ -50,6 +50,21 @@ const completeWorkOrder = async (orderId, techId) => {
   return ord;
 }
 
+const getTechById = async (techId) => {
+  let tec = await Tech.findById({ _id: techId })
+  return tec
+}
+
+const getCurrentWorkOrder = async (techId) => {
+  let tec = await Tech.findById({ _id: techId })
+  if (!tec) throw new Error('Technician Not Found')
+
+  let ord = await Order.findById({ _id: tec.current_order })
+  if (!ord) throw new Error('Order Not Found')
+
+  return ord
+}
+
 const assignWorkOrder = async (techId) => {
   console.log('Assume we assigned a work order')
   /*
@@ -62,5 +77,7 @@ module.exports = {
   login: login,
   completeWorkOrder: completeWorkOrder,
   assignWorkOrder: assignWorkOrder,
-  createTech: createTech
+  createTech: createTech,
+  getTechById: getTechById,
+  getCurrentWorkOrder: getCurrentWorkOrder
 }

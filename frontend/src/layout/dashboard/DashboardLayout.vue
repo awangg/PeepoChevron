@@ -2,14 +2,18 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
-        <sidebar-link to="/workform" name="Submit Work Order" icon="ti-support" />
-        <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Table List" icon="ti-view-list-alt"/>
-        <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
-        <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2"/>
-        <sidebar-link to="/maps" name="Map" icon="ti-map"/>
-        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell"/>
+        <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel" v-if="access == 1"/>
+        <sidebar-link to="/workform" name="Submit Work Order" icon="ti-support" v-if="access == 1" />
+        <sidebar-link to="/stats" name="User Profile" icon="ti-user" v-if="access == 2"/>
+        <sidebar-link to="/table-list" name="Table List" icon="ti-view-list-alt" v-if="access == 3"/>
+        <sidebar-link to="/typography" name="Typography" icon="ti-text" v-if="access == 3"/>
+        <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2" v-if="access == 3"/>
+        <sidebar-link to="/maps" name="Map" icon="ti-map" v-if="access == 3"/>
+        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" v-if="access == 3"/>
+        <p-button class="mt-3 mx-auto" type="dark"
+            @click.native.prevent="deleteCookies">
+            Logout
+        </p-button>
       </template>
     </side-bar>
     <div class="main-panel">
@@ -37,11 +41,23 @@ export default {
     DashboardContent,
     MobileMenu
   },
+  data() {
+    return {
+      access: -1
+    }
+  },
+  mounted() {
+    this.access = this.$cookies.get('access')
+  },
   methods: {
     toggleSidebar() {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    deleteCookies() {
+      this.$cookies.keys().forEach(cookie => this.$cookies.remove(cookie))
+      this.$router.push({ path: '/login' })
     }
   }
 };

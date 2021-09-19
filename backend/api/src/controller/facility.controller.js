@@ -4,10 +4,19 @@ const router = express.Router()
 
 const { FacilityService } = require('../handlers')
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     let authObj = await FacilityService.login(req.body.name, req.body.password)
     res.status(200).json(authObj)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
+router.get('/', async (req, res) => {
+  try {
+    let facs = await FacilityService.getAllFacilities()
+    res.status(200).json(facs)
   } catch (err) {
     res.status(500).json(err)
   }
