@@ -30,9 +30,9 @@
           </sidebar-link>
         </slot>
       </ul>
-      <moving-arrow :move-y="arrowMovePx">
+      <!--<moving-arrow :move-y="arrowMovePx">
 
-      </moving-arrow>
+      </moving-arrow>-->
     </div>
   </div>
 </template>
